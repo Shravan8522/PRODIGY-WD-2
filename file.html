@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stopwatch</title>
+	<style>
+		.stopwatch {
+			text-align: center;
+			background-color: #f0f0f0;
+			padding: 20px;
+			border: 1px solid #ccc;
+			border-radius: 10px;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+		}
+		.timer {
+			font-size: 48px;
+			font-weight: bold;
+			color: #333;
+		}
+		.start {
+			background-color: #4CAF50;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		.stop {
+			background-color: #f44336;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+		.reset {
+			background-color: #2196F3;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body>
+	<div class="stopwatch">
+		<div class="timer">00:00:00</div>
+		<button class="start" onclick="start()">Start</button>
+		<button class="stop" onclick="stop()">Stop</button>
+		<button class="reset" onclick="reset()">Reset</button>
+	</div>
+
+	<script>
+		let seconds = 0;
+		let minutes = 0;
+		let hours = 0;
+		let intervalId = null;
+		let isRunning = false;
+
+		const timerElement = document.querySelector('.timer');
+
+		function start() {
+			if (!isRunning) {
+				intervalId = setInterval(() => {
+					seconds++;
+					if (seconds >= 60) {
+						seconds = 0;
+						minutes++;
+						if (minutes >= 60) {
+							minutes = 0;
+							hours++;
+						}
+					}
+					updateTimerDisplay();
+				}, 1000);
+				isRunning = true;
+			}
+		}
+
+		function stop() {
+			if (isRunning) {
+				clearInterval(intervalId);
+				isRunning = false;
+			}
+		}
+
+		function reset() {
+			clearInterval(intervalId);
+			seconds = 0;
+			minutes = 0;
+			hours = 0;
+			isRunning = false;
+			updateTimerDisplay();
+		}
+
+		function updateTimerDisplay() {
+			timerElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+		}
+	</script>
+</body>
+</html>
